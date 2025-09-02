@@ -9,8 +9,8 @@ use Illuminate\Http\Request;
 class TagController extends Controller
 {
     public function index() {
-        $tags = Tag::orderBy('name')->paginate(20);
-        return view('tags.index', compact('tags'));
+    $tags = Tag::orderBy('name')->paginate(10); 
+    return view('tags.index', compact('tags'));
     }
     public function store(StoreTagRequest $request) {
         Tag::create($request->validated());

@@ -21,8 +21,8 @@ class StoreCommentRequest extends FormRequest
      */
     public function rules(): array {
         return [
-            'author_name' => ['required','string'],
-            'body' => ['required','string','max:500'],
+            'author_name' => ['nullable','string','max:255'],
+            'body' => ['required','string','max:500'],        
         ];
     }
 }

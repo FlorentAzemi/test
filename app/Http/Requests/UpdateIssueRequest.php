@@ -19,10 +19,14 @@ class UpdateIssueRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules(): array
+    public function rules()
     {
         return [
-            //
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'status' => 'required|in:open,in_progress,closed',
+            'priority' => 'required|in:low,medium,high',
+            'due_date' => 'nullable|date',
         ];
     }
 }

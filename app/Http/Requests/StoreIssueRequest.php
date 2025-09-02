@@ -22,12 +22,12 @@ class StoreIssueRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'project_id' => ['required','exists:projects,id'],
-            'title' => ['required','string','max:255'],
-            'description' => ['nullable','string'],
-            // 'status' => ['nullable', $status],
-            // 'priority' => ["required", $priority],
-            'due_date' => ['nullable','date'],
+            'project_id' => ['required', 'exists:projects,id'],
+            'title'      => ['required', 'string', 'max:255'],
+            'description'=> ['nullable', 'string'],
+            'status'     => ['nullable', 'in:open,in_progress,closed'],   
+            'priority'   => ['required', 'in:low,medium,high'],           
+            'due_date'   => ['nullable', 'date'],
         ];
     }
 }

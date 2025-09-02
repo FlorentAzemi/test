@@ -1,4 +1,3 @@
-{{-- resources/views/issues/create.blade.php --}}
 @extends('layouts.app')
 @section('content')
 <form action="{{ route('issues.store') }}" method="POST" class="card">

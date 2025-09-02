@@ -12,6 +12,10 @@ class Issue extends Model
         'description',
         'status',
         'priority',
+        'due_date',
+    ];
+    protected $casts = [
+        'due_date' => 'date',
     ];
 
     // Relationships
@@ -20,15 +24,16 @@ class Issue extends Model
     }
     public function members()
     {
-        return $this->belongsToMany(User::class, 'issue_user');
+        return $this->belongsToMany(User::class, 'issue_user')->withTimestamps();
     }
     public function tags() {
         return $this->belongsToMany(Tag::class);
     }
-    public function comments() {
+    public function comments()
+    {
         return $this->hasMany(Comment::class);
     }
-    // 🔹 Scopes
+
     public function scopeStatus($query, $status)
     {
         if ($status) {

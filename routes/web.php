@@ -30,11 +30,17 @@ Route::middleware('auth')->group(function () {
     Route::post('/issues/{issue}/tags', [IssueController::class,'attachTag'])->name('issues.tags.attach');
     Route::delete('/issues/{issue}/tags/{tag}', [IssueController::class,'detachTag'])->name('issues.tags.detach');
 
-    Route::get('/issues/{issue}/comments', [CommentController::class,'index'])->name('issues.comments.index');
-    Route::post('/issues/{issue}/comments', [CommentController::class,'store'])->name('issues.comments.store');
+    Route::get('/issues/{issue}/comments', [CommentController::class, 'index'])->name('issues.comments.index');
 
-    Route::post('/issues/{issue}/users', [IssueController::class,'attachUser'])->name('issues.users.attach');
-    Route::delete('/issues/{issue}/users/{user}', [IssueController::class,'detachUser'])->name('issues.users.detach');
+Route::prefix('issues/{issue}')->group(function () {
+    Route::get('comments', [CommentController::class, 'index'])->name('issues.comments.index');
+    Route::post('comments', [CommentController::class, 'store'])->name('issues.comments.store');
+});
+
+
+
+Route::post('/issues/{issue}/members', [IssueController::class, 'attachMember'])->name('issues.members.attach');
+Route::delete('/issues/{issue}/members/{user}', [IssueController::class, 'detachMember'])->name('issues.members.detach');
 
 });
 

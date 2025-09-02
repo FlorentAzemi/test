@@ -41,13 +41,7 @@ class IssueController extends Controller
         return view('issues.show', compact('issue'));
     }
 
-    public function edit(Issue $issue) {
-        return view('issues.edit', [
-            'issue' => $issue,
-            'projects' => Project::orderBy('name')->get(),
-        ]);
-    }
-
+    public function edit(Issue $issue) { return view('issues.edit', compact('issue')); }
     public function update(UpdateIssueRequest $request, Issue $issue) {
         $issue->update($request->validated());
         return redirect()->route('issues.show',$issue)->with('success','Updated');
@@ -58,15 +52,42 @@ class IssueController extends Controller
         return redirect()->route('issues.index')->with('success','Deleted');
     }
 
-    public function attachUser(Issue $issue, Request $request)
+    public function attachMember(Request $request, Issue $issue)
     {
-        $issue->members()->syncWithoutDetaching($request->user_id);
-        return response()->json(['ok'=>true]);
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+        ]);
+
+        $user = User::find($request->user_id);
+        $issue->members()->syncWithoutDetaching($user);
+        $html = view('members.member', ['member' => $user])->render();
+
+
+        return response()->json(['ok' => true, 'html' => $html]);
     }
 
-    public function detachUser(Issue $issue, User $user)
+    public function detachMember(Issue $issue, User $user)
     {
-        $issue->members()->detach($user->id);
-        return response()->json(['ok'=>true]);
+        $issue->members()->detach($user);
+
+        return response()->json(['ok' => true]);
     }
+    public function attachTag(Request $request, Issue $issue)
+    {
+        $issue->tags()->attach($request->tag_id);
+
+        $tag = Tag::find($request->tag_id);
+
+        $html = view('tags.show', compact('tag'))->render();
+
+        return response()->json(['ok' => true, 'html' => $html]);
+    }
+
+    public function detachTag(Issue $issue, Tag $tag)
+    {
+        $issue->tags()->detach($tag->id);
+
+        return response()->json(['ok' => true]);
+    }
+
 }

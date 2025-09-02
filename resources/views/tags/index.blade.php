@@ -1,4 +1,3 @@
-{{-- resources/views/tags/index.blade.php --}}
 @extends('layouts.app')
 @section('content')
 <div class="grid">

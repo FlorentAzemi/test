@@ -1,4 +1,3 @@
-{{-- resources/views/projects/show.blade.php --}}
 @extends('layouts.app')
 @section('content')
 <div class="card " style="padding: 14px;">
